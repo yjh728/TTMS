@@ -8,9 +8,18 @@ public class Plan {
     private int planID;
     private int studioID;
     private Date playDate;
-    private Time playTime;
+    private Time startTime;
+    private Time endTime;
 
     public Plan() {
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
     }
 
     public int getPlayID() {
@@ -45,11 +54,11 @@ public class Plan {
         this.playDate = playDate;
     }
 
-    public Time getPlayTime() {
-        return playTime;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public void setPlayTime(Time playTime) {
-        this.playTime = playTime;
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
     }
 }

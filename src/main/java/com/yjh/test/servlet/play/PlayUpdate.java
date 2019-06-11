@@ -18,11 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-@WebServlet("/play/add")
 @MultipartConfig
-public class PlayAdd extends HttpServlet {
+@WebServlet("/play/update")
+public class PlayUpdate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
@@ -89,24 +91,27 @@ public class PlayAdd extends HttpServlet {
         play.setEndDate(Date.valueOf(values.get(5)));
         play.setPrice(Double.valueOf(values.get(6)));
         try {
-            if (playService.quary(play.getPlayName()).size() > 0) {
+            List<Play> list = playService.quary(play.getPlayName());
+            if (list.size() == 0) {
                 result.setStatus(false);
-                result.setReasons("该影片已存在");
-            } else if (playService.add(play) > 0) {
-                result.setStatus(true);
-                result.setReasons("添加影片成功");
-                result.setData(play);
+                result.setReasons("该影片不存在");
             } else {
-                result.setStatus(false);
-                result.setReasons("添加影片失败");
+                play.setPlayID(list.get(0).getPlayID());
+                if (playService.update(play) > 0) {
+                    result.setStatus(true);
+                    result.setReasons("修改影片成功");
+                    result.setData(play);
+                } else {
+                    result.setStatus(false);
+                    result.setReasons("修改影片失败");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             result.setStatus(false);
-            result.setReasons("添加影片失败");
+            result.setReasons("修改影片失败");
         } finally {
             writer.write(result.toString());
-            writer.close();
         }
     }
 }

@@ -18,7 +18,10 @@ public class SeatService {
     public int update(Seat seat) throws SQLException {
         return seatDao.update(seat);
     }
-    public List<Seat> quary(int studioID) throws  SQLException{
-        return seatDao.quary(studioID);
+    public List<Seat> quary(int id) throws SQLException{
+        return seatDao.quary(id);
+    }
+    public List<Seat> quaryByStudioID(int studioID) throws  SQLException{
+        return seatDao.quaryByStudioID(studioID);
     }
 }

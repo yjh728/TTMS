@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserDao {
     int insert(User user) throws SQLException;
 
-    int delete(String userName) throws SQLException;
+    int delete(int id) throws SQLException;
 
     int update(String userName, String password) throws SQLException;
 
@@ -16,5 +16,4 @@ public interface UserDao {
 
     List<User> quary(int id) throws SQLException;
 
-    List<User> quaryAll() throws SQLException;
 }

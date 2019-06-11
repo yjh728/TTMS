@@ -6,8 +6,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PlanDao {
-    int insert(Plan plan)throws SQLException;
-    int delete(int id)throws  SQLException;
-    int update(Plan plan)throws SQLException;
-    List<Plan> quary(int id)throws SQLException;
+    int insert(Plan plan) throws SQLException;
+
+    int delete(int id) throws SQLException;
+
+    int update(Plan plan) throws SQLException;
+
+    List<Plan> query(int id) throws SQLException;
 }

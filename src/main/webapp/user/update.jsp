@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="user/update" method="post">
+<form action="update" method="post">
     用户名：<input type="text" name="username"><br/>
     密码：<input type="password" name="password"><br>
     新密码：<input type="password" name="new_password"><br>

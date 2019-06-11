@@ -35,12 +35,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int delete(String username) throws SQLException {
+    public int delete(int id) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
-        String DELETE = "delete from user where user_name=?";
+        String DELETE = "delete from user where user_id=?";
         PreparedStatement statement = connection.prepareStatement(DELETE);
         statement.clearParameters();
-        statement.setString(1, username);
+        statement.setInt(1, id);
         int count = statement.executeUpdate();
         JDBCUtil.close(statement);
         JDBCUtil.close(connection);
@@ -65,16 +65,22 @@ public class UserDaoImpl implements UserDao {
     public List<User> quary(String username, String password) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         String QUARY;
-        if (password == null) {
-            QUARY = "select * from user where user_name=?";
-        } else {
-            QUARY = "select * from user where user_name=? and password=?";
+        if (username==null) {
+            QUARY = "select * from user";
+        }else {
+            if (password == null) {
+                QUARY = "select * from user where user_name=?";
+            } else {
+                QUARY = "select * from user where user_name=? and password=?";
+            }
         }
         List<User> list = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(QUARY);
-        statement.setString(1, username);
-        if (password != null) {
-            statement.setString(2, password);
+        if (username!=null) {
+            statement.setString(1, username);
+            if (password != null) {
+                statement.setString(2, password);
+            }
         }
         ResultSet set = statement.executeQuery();
         while (set.next()) {
@@ -111,23 +117,4 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
-    @Override
-    public List<User> quaryAll() throws SQLException {
-        Connection connection = JDBCUtil.getConnection();
-        String QUARY = "select * from user";
-        List<User> list = new ArrayList<>();
-        PreparedStatement statement = connection.prepareStatement(QUARY);
-        ResultSet set = statement.executeQuery();
-        while (set.next()) {
-            User user = new User();
-            user.setId(set.getInt("user_id"));
-            user.setUserName(set.getString("user_name"));
-            user.setPassword(set.getString("password"));
-            user.setIdentity(UserStatus.valueOf(set.getString("user_identity")));
-            user.setAnswer(set.getString("answer"));
-            list.add(user);
-        }
-        JDBCUtil.close(set, statement, connection);
-        return list;
-    }
 }

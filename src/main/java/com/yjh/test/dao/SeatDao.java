@@ -9,5 +9,6 @@ public interface SeatDao {
     int insert(Seat seat) throws SQLException;
     int delete(int seatID) throws SQLException;
     int update(Seat seat) throws SQLException;
-    List<Seat> quary(int studioID) throws SQLException;
+    List<Seat> quary(int id) throws SQLException;
+    List<Seat> quaryByStudioID(int studioID) throws SQLException;
 }

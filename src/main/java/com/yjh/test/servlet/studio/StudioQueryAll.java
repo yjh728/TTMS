@@ -2,7 +2,9 @@ package com.yjh.test.servlet.studio;
 
 import com.yjh.test.model.Result;
 import com.yjh.test.model.Seat;
+import com.yjh.test.model.Studio;
 import com.yjh.test.service.SeatService;
+import com.yjh.test.service.StudioService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,30 +16,32 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/studio/query")
-public class StudioQuary extends HttpServlet {
+@WebServlet("/studio/queryall")
+public class StudioQueryAll extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json; charset=utf-8");
-        Result<List<Seat>> result = new Result<>();
+        Result<List<Studio>> result = new Result<>();
         PrintWriter writer = resp.getWriter();
-        int id = Integer.valueOf(req.getParameter("studio_id"));
-        SeatService seatService = new SeatService();
+        StudioService studioServic = new StudioService();
         try {
-            List<Seat> seats = seatService.quary(id);
-            if (seats.size() == 0) {
+            List<Studio> studios = studioServic.quary(-1);
+            if (studios.size() == 0) {
                 result.setStatus(false);
-                result.setReasons("演出厅不存在或没有座位");
+                result.setReasons("无演出厅");
             } else {
                 result.setStatus(true);
-                result.setReasons("查询演出厅座位成功");
-                result.setData(seats);
+                result.setReasons("查询演出厅成功");
+                result.setData(studios);
             }
-            writer.write(result.toString());
         } catch (SQLException e) {
             e.printStackTrace();
+            result.setStatus(false);
+            result.setReasons("查询演出厅失败");
+        }finally {
+            writer.write(result.toString());
         }
     }
 }

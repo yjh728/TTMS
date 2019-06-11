@@ -1,8 +1,8 @@
-package com.yjh.test.servlet.user;
+package com.yjh.test.servlet.plan;
 
+import com.yjh.test.model.Plan;
 import com.yjh.test.model.Result;
-import com.yjh.test.model.User;
-import com.yjh.test.service.UserService;
+import com.yjh.test.service.PlanService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,34 +14,33 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/user/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/plan/delete")
+public class PlanDelete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("utf-8");
+        req.setCharacterEncoding("utf-8");
         resp.setContentType("application/json; charset=utf-8");
         PrintWriter writer = resp.getWriter();
-        Result<User> result = new Result<>();
-        UserService userService = new UserService();
-        int id = Integer.valueOf(req.getParameter("user_id"));
+        Result<Plan> result = new Result<>();
+        PlanService service = new PlanService();
+        int id = Integer.valueOf(req.getParameter("plan_id"));
         try {
-            List<User> list = userService.quary(id);
-            if (list.size() == 0) {
+            List<Plan> planList = service.query(id);
+            if (planList.size() == 0) {
                 result.setStatus(false);
-                result.setReasons("用户不存在");
-            } else if (userService.delete(id) > 0) {
+                result.setReasons("该演出计划不存在");
+            } else if (service.delete(id) > 0) {
                 result.setStatus(true);
-                result.setReasons("删除用户成功");
-                result.setData(list.get(0));
+                result.setReasons("删除演出计划成功");
+                result.setData(planList.get(0));
             } else {
                 result.setStatus(false);
-                result.setReasons("删除用户失败");
+                result.setReasons("删除演出计划失败");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             result.setStatus(false);
-            result.setReasons("删除用户失败");
+            result.setReasons("删除演出计划失败");
         } finally {
             writer.write(result.toString());
             writer.close();

@@ -59,7 +59,27 @@ public class SeatDaoImpl implements SeatDao {
     }
 
     @Override
-    public List<Seat> quary(int studioID) throws SQLException {
+    public List<Seat> quary(int id) throws SQLException {
+        Connection connection = JDBCUtil.getConnection();
+        String sql = "select * from seat "
+                + "where seat_id="+id;
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet set = statement.executeQuery();
+        List<Seat> seats = new ArrayList<>();
+        while (set.next()) {
+            Seat seat = new Seat();
+            seat.setId(set.getInt("seat_id"));
+            seat.setStudioID(set.getInt("studio_id"));
+            seat.setCol(set.getInt("seat_col"));
+            seat.setRow(set.getInt("seat_row"));
+            seat.setStatus(SeatStatus.valueOf(set.getString("seat_status")));
+            seats.add(seat);
+        }
+        return seats;
+    }
+
+    @Override
+    public List<Seat> quaryByStudioID(int studioID) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         String sql = "select * from seat "
                 + "where studio_id="+studioID;

@@ -1,15 +1,13 @@
 package com.yjh.test.dao;
 
-import com.yjh.test.dao.impl.PlayDaoImpl;
-import com.yjh.test.dao.impl.SeatDaoImpl;
-import com.yjh.test.dao.impl.StudioDaoImpl;
-import com.yjh.test.dao.impl.UserDaoImpl;
+import com.yjh.test.dao.impl.*;
 
 public class DaoFactory {
     public static UserDao getUserDao() {
         return new UserDaoImpl();
     }
-    public static StudioDao getStudioDao(){
+
+    public static StudioDao getStudioDao() {
         return new StudioDaoImpl();
     }
 
@@ -19,5 +17,13 @@ public class DaoFactory {
 
     public static PlayDao getPlayDao() {
         return new PlayDaoImpl();
+    }
+
+    public static PlanDao getPlanDao() {
+        return new PlanDaoImpl();
+    }
+
+    public static TicketDao getTicketDao() {
+        return new TicketDaoImpl();
     }
 }

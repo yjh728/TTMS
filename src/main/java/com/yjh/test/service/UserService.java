@@ -15,8 +15,8 @@ public class UserService {
         return userDao.insert(user);
     }
 
-    public int delete(String userName) throws SQLException {
-        return userDao.delete(userName);
+    public int delete(int id) throws SQLException {
+        return userDao.delete(id);
     }
 
     public int update(String userName, String password) throws SQLException {
@@ -31,7 +31,4 @@ public class UserService {
         return userDao.quary(id);
     }
 
-    public List<User> quaryAll() throws SQLException {
-        return userDao.quaryAll();
-    }
 }

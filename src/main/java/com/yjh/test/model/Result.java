@@ -11,7 +11,7 @@ public class Result<T> {
     private List<String> reasons;
     private T data;
     public Result() {
-        this.status = true;
+        this.status = false;
         this.reasons = null;
         this.data = null;
     }

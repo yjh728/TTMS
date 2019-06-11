@@ -132,6 +132,7 @@ public class StudioDaoImpl implements StudioDao {
             studio.setSeatsCount(set.getInt("seats_count"));
             studios.add(studio);
         }
+        JDBCUtil.close(set, statement, connection);
         return studios;
     }
 }

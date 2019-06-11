@@ -29,7 +29,7 @@ public class UserUpdate extends HttpServlet {
         Result<User> result = new Result<>();
         try {
             List<User> users = userService.quary(username, null);
-            if (users == null) {
+            if (users.size() == 0) {
                 result.setStatus(false);
                 result.setReasons("该用户不存在");
             } else if ((users = userService.quary(username, password)).size() > 0) {

@@ -87,6 +87,7 @@ public class PlayDaoImpl implements PlayDao {
         updatePlayStatement.setDate(6, play.getEndDate());
         updatePlayStatement.setFloat(7, play.getPrice());
         updatePlayStatement.setString(8, play.getPictureUrl());
+        updatePlayStatement.setInt(9, play.getPlayID());
         int count = updatePlayStatement.executeUpdate();
         JDBCUtil.close(updatePlayStatement);
 
@@ -108,6 +109,7 @@ public class PlayDaoImpl implements PlayDao {
             deleteStatement.executeUpdate();
             JDBCUtil.close(deleteStatement);
         }
+        connection.commit();
         JDBCUtil.close(set);
         JDBCUtil.close(quaryPlanStatemment);
         JDBCUtil.close(connection);
@@ -119,7 +121,7 @@ public class PlayDaoImpl implements PlayDao {
         Connection connection = JDBCUtil.getConnection();
         String quary;
         if (id > 0) {
-            quary = "select * from play where id=" + id;
+            quary = "select * from play where play_id=" + id;
         } else {
             quary = "select * from play";
         }
@@ -137,7 +139,9 @@ public class PlayDaoImpl implements PlayDao {
             play.setPlayType(PlayType.valueOf(set.getString("play_type")));
             play.setPrice(set.getDouble("price"));
             play.setStartDate(set.getDate("start_date"));
+            playList.add(play);
         }
+        JDBCUtil.close(set, statement, connection);
         return playList;
     }
 
@@ -160,7 +164,9 @@ public class PlayDaoImpl implements PlayDao {
             play.setPlayType(PlayType.valueOf(set.getString("play_type")));
             play.setPrice(set.getDouble("price"));
             play.setStartDate(set.getDate("start_date"));
+            playList.add(play);
         }
+        JDBCUtil.close(set, statement, connection);
         return playList;
     }
 }
