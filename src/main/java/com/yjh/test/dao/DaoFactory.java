@@ -26,4 +26,8 @@ public class DaoFactory {
     public static TicketDao getTicketDao() {
         return new TicketDaoImpl();
     }
+
+    public static SaleDao getSaleDao() {
+        return new SaleDaoImpl();
+    }
 }

@@ -30,6 +30,7 @@ public class StudioDaoImpl implements StudioDao {
             resultSet.next();
             studio.setStudioID(resultSet.getInt(1));
         }
+        JDBCUtil.close(resultSet);
         for (int i = 0; i < studio.getRow(); i++) {
             for (int j = 0; j < studio.getCol(); j++) {
                 Seat seat = new Seat();

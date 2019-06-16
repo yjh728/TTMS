@@ -14,6 +14,42 @@ public class Play {
     private double price;
     private String pictureUrl;
     private PlayType playType;
+    private String director;
+    private String  starring;
+    private String introduction;
+    private float ratting;
+
+    public float getRatting() {
+        return ratting;
+    }
+
+    public void setRatting(float ratting) {
+        this.ratting = ratting;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getStarring() {
+        return starring;
+    }
+
+    public void setStarring(String starring) {
+        this.starring = starring;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public Play() {
     }

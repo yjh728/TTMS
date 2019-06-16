@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TicketDao {
     int create(int planID, List<Seat> seatList, int playID, boolean recreate) throws SQLException;
-    int insert(int ticketID, int playID, double price, TicketStatus status) throws SQLException;
+    int insert(int ticketID, int playID, double price, TicketStatus status, int userID) throws SQLException;
     List<Ticket> query(int id) throws SQLException;
     List<Ticket> queryByPlanID(int id) throws SQLException;
 }

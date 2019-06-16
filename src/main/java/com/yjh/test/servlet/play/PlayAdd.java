@@ -88,6 +88,10 @@ public class PlayAdd extends HttpServlet {
         play.setStartDate(Date.valueOf(values.get(4)));
         play.setEndDate(Date.valueOf(values.get(5)));
         play.setPrice(Double.valueOf(values.get(6)));
+        play.setDirector(values.get(7));
+        play.setStarring(values.get(8));
+        play.setIntroduction(values.get(9));
+        play.setRatting(Float.valueOf(values.get(10)));
         try {
             if (playService.quary(play.getPlayName()).size() > 0) {
                 result.setStatus(false);

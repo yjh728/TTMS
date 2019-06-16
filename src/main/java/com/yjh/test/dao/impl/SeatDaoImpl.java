@@ -62,7 +62,7 @@ public class SeatDaoImpl implements SeatDao {
     public List<Seat> quary(int id) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         String sql = "select * from seat "
-                + "where seat_id="+id;
+                + "where seat_id=" + id;
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet set = statement.executeQuery();
         List<Seat> seats = new ArrayList<>();
@@ -75,6 +75,7 @@ public class SeatDaoImpl implements SeatDao {
             seat.setStatus(SeatStatus.valueOf(set.getString("seat_status")));
             seats.add(seat);
         }
+        JDBCUtil.close(set, statement, connection);
         return seats;
     }
 
@@ -82,7 +83,7 @@ public class SeatDaoImpl implements SeatDao {
     public List<Seat> quaryByStudioID(int studioID) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         String sql = "select * from seat "
-                + "where studio_id="+studioID;
+                + "where studio_id=" + studioID;
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet set = statement.executeQuery();
         List<Seat> seats = new ArrayList<>();
@@ -95,6 +96,7 @@ public class SeatDaoImpl implements SeatDao {
             seat.setStatus(SeatStatus.valueOf(set.getString("seat_status")));
             seats.add(seat);
         }
+        JDBCUtil.close(set, statement, connection);
         return seats;
     }
 }

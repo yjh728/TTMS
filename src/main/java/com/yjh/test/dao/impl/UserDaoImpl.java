@@ -29,8 +29,7 @@ public class UserDaoImpl implements UserDao {
             resultSet.next();
             user.setId(resultSet.getInt(1));
         }
-        JDBCUtil.close(statement);
-        JDBCUtil.close(connection);
+        JDBCUtil.close(resultSet, statement, connection);
         return count;
     }
 
@@ -65,9 +64,9 @@ public class UserDaoImpl implements UserDao {
     public List<User> quary(String username, String password) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         String QUARY;
-        if (username==null) {
+        if (username == null) {
             QUARY = "select * from user";
-        }else {
+        } else {
             if (password == null) {
                 QUARY = "select * from user where user_name=?";
             } else {
@@ -76,7 +75,7 @@ public class UserDaoImpl implements UserDao {
         }
         List<User> list = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(QUARY);
-        if (username!=null) {
+        if (username != null) {
             statement.setString(1, username);
             if (password != null) {
                 statement.setString(2, password);

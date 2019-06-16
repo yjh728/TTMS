@@ -25,9 +25,9 @@ public class TicketDaoImpl implements TicketDao {
         }
 
         String createTickets = "insert into ticket "
-                + "(plan_id, seat_id, status, studio_id, play_id) "
+                + "(plan_id, seat_id, status, studio_id, play_id, seat_row, seat_col) "
                 + "values "
-                + "(?,?,?,?,?)";
+                + "(?,?,?,?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(createTickets);
         int count = 0;
         for (Seat seat : seatList) {
@@ -38,6 +38,8 @@ public class TicketDaoImpl implements TicketDao {
                 statement.setString(3, TicketStatus.NOMAL.toString());
                 statement.setInt(4, seat.getStudioID());
                 statement.setInt(5, playID);
+                statement.setInt(6, seat.getRow());
+                statement.setInt(7, seat.getCol());
                 count += statement.executeUpdate();
             }
         }
@@ -48,7 +50,7 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public int insert(int ticketID, int playID, double price, TicketStatus status) throws SQLException {
+    public int insert(int ticketID, int playID, double price, TicketStatus status, int userID) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         connection.setAutoCommit(false);
 
@@ -59,21 +61,21 @@ public class TicketDaoImpl implements TicketDao {
         JDBCUtil.close(ticketStatement);
 
         String addSale = "insert into sale "
-                + "(ticket_id, price, sale_type, play_id) "
+                + "(ticket_id, price, sale_type, play_id, user_id) "
                 + "values "
-                + "(?, ?, ?, ?)";
+                + "(?, ?, ?, ?, ?)";
         PreparedStatement saleStatment = connection.prepareStatement(addSale);
         saleStatment.setInt(1, ticketID);
         saleStatment.setFloat(2, (float) price);
         saleStatment.setString(3, String.valueOf(status));
         saleStatment.setInt(4, playID);
+        saleStatment.setInt(5, userID);
         int count = saleStatment.executeUpdate();
 
         String querySalesanalysis = "select * from salesanalysis where play_id=" + playID;
         PreparedStatement statement = connection.prepareStatement(querySalesanalysis);
-        ResultSet set = saleStatment.executeQuery();
-        JDBCUtil.close(statement);
-        if (set == null) {
+        ResultSet set = statement.executeQuery();
+        if (!set.next()) {
             String insertSalesanalysis = "insert into salesanalysis "
                     + "(tickets, sales, play_id) "
                     + "values "
@@ -87,6 +89,8 @@ public class TicketDaoImpl implements TicketDao {
                 insertSalesanalysisStatement.setFloat(2, 0);
             }
             insertSalesanalysisStatement.setInt(3, playID);
+            insertSalesanalysisStatement.executeUpdate();
+            JDBCUtil.close(insertSalesanalysisStatement);
         } else {
             String updateSalesanalysis;
             switch (status) {
@@ -108,9 +112,12 @@ public class TicketDaoImpl implements TicketDao {
             }
             PreparedStatement updateSalesStatement = connection.prepareStatement(updateSalesanalysis);
             updateSalesStatement.executeUpdate();
+            JDBCUtil.close(updateSalesStatement);
         }
         connection.commit();
+        JDBCUtil.close(statement);
 
+        JDBCUtil.close(set);
         JDBCUtil.close(saleStatment);
         JDBCUtil.close(connection);
         return count;
@@ -131,8 +138,11 @@ public class TicketDaoImpl implements TicketDao {
             ticket.setSeatID(set.getInt("seat_id"));
             ticket.setStudioID(set.getInt("studio_id"));
             ticket.setStatus(TicketStatus.valueOf(set.getString("status")));
+            ticket.setRow(set.getInt("seat_row"));
+            ticket.setCol(set.getInt("seat_col"));
             ticketList.add(ticket);
         }
+        JDBCUtil.close(set, statement, connection);
         return ticketList;
     }
 
@@ -151,8 +161,11 @@ public class TicketDaoImpl implements TicketDao {
             ticket.setSeatID(set.getInt("seat_id"));
             ticket.setStudioID(set.getInt("studio_id"));
             ticket.setStatus(TicketStatus.valueOf(set.getString("status")));
+            ticket.setRow(set.getInt("seat_row"));
+            ticket.setCol(set.getInt("seat_col"));
             ticketList.add(ticket);
         }
+        JDBCUtil.close(set, statement, connection);
         return ticketList;
     }
 }

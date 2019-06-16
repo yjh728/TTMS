@@ -13,4 +13,6 @@ public interface PlanDao {
     int update(Plan plan) throws SQLException;
 
     List<Plan> query(int id) throws SQLException;
+
+    List<Plan> queryByPlayID(int id) throws SQLException;
 }

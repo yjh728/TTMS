@@ -21,4 +21,8 @@ public class PlanService {
     public List<Plan> query(int id) throws SQLException {
         return planDao.query(id);
     }
+
+    public List<Plan> queryByPlayID(int id) throws SQLException {
+        return planDao.queryByPlayID(id);
+    }
 }

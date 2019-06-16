@@ -28,4 +28,11 @@ public class PlayService {
     public List<Play> quary(String name) throws SQLException {
         return playDao.quary(name);
     }
+    public List<Play> queryNowHot()throws SQLException{
+        return playDao.queryNowHot();
+    }
+
+    public List<Play> queryReleased()throws SQLException{
+        return playDao.queryReleased();
+    }
 }

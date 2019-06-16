@@ -16,8 +16,8 @@ public class TicketService {
         return ticketDao.create(planID, seatList, playID, recreate);
     }
 
-    public int insert(int ticketID, int playID, double price, TicketStatus status) throws SQLException {
-        return ticketDao.insert(ticketID, playID, price, status);
+    public int insert(int ticketID, int playID, double price, TicketStatus status, int userID) throws SQLException {
+        return ticketDao.insert(ticketID, playID, price, status, userID);
     }
 
     public List<Ticket> query(int id) throws SQLException {

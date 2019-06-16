@@ -10,6 +10,15 @@ public class Plan {
     private Date playDate;
     private Time startTime;
     private Time endTime;
+    private String studioName;
+
+    public String getStudioName() {
+        return studioName;
+    }
+
+    public void setStudioName(String studioName) {
+        this.studioName = studioName;
+    }
 
     public Plan() {
     }

@@ -15,4 +15,8 @@ public interface PlayDao {
     List<Play> quary(int id) throws SQLException;
 
     List<Play> quary(String name) throws SQLException;
+
+    List<Play> queryNowHot() throws SQLException;
+
+    List<Play> queryReleased() throws SQLException;
 }

@@ -26,6 +26,7 @@ public class BoxOfficeStatisticsImpl implements BoxOfficeStatistics {
             statistics.setSales(set.getLong("sales"));
             list.add(statistics);
         }
+        JDBCUtil.close(set, statement, connection);
         return list;
     }
 }

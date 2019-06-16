@@ -27,6 +27,7 @@ public class TicketBack extends HttpServlet {
         Result<Ticket> result = new Result<>();
         TicketService ticketService = new TicketService();
         int id = Integer.valueOf(req.getParameter("ticket_id"));
+        int userID = Integer.valueOf(req.getParameter("user_id"));
         try {
             List<Ticket> ticketList = ticketService.query(id);
             if (ticketList.size() == 0) {
@@ -39,7 +40,7 @@ public class TicketBack extends HttpServlet {
                 PlayService playService = new PlayService();
                 int playID = ticketList.get(0).getPlayID();
                 List<Play> playList = playService.quary(playID);
-                if (ticketService.insert(id, playID, playList.get(0).getPrice(), TicketStatus.NOMAL) > 0) {
+                if (ticketService.insert(id, playID, playList.get(0).getPrice(), TicketStatus.NOMAL, userID) > 0) {
                     result.setStatus(true);
                     result.setReasons("退票成功");
                     ticketList.get(0).setStatus(TicketStatus.NOMAL);

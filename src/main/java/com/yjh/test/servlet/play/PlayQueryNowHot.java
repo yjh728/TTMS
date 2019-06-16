@@ -14,8 +14,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/play/queryall")
-public class PlayQueryAll extends HttpServlet {
+@WebServlet("/play/nowhot")
+public class PlayQueryNowHot extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
@@ -24,7 +24,7 @@ public class PlayQueryAll extends HttpServlet {
         PlayService service = new PlayService();
         Result<List<Play>> result = new Result<>();
         try {
-            List<Play> playList = service.quary(-1);
+            List<Play> playList = service.queryNowHot();
             if (playList.size() == 0) {
                 result.setStatus(false);
                 result.setReasons("没有剧目");
@@ -40,6 +40,5 @@ public class PlayQueryAll extends HttpServlet {
         } finally {
             writer.write(result.toString());
         }
-
     }
 }

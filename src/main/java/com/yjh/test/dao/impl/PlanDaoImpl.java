@@ -92,6 +92,34 @@ public class PlanDaoImpl implements PlanDao {
             plan.setEndTime(set.getTime("end_time"));
             list.add(plan);
         }
+        JDBCUtil.close(set, statement, connection);
+        return list;
+    }
+
+    @Override
+    public List<Plan> queryByPlayID(int id) throws SQLException {
+        Connection connection = JDBCUtil.getConnection();
+        String query = "select * from plan where play_id=" + id;
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet set = statement.executeQuery();
+        List<Plan> list = new ArrayList<>();
+        while (set.next()) {
+            Plan plan = new Plan();
+            plan.setPlanID(set.getInt("plan_id"));
+            plan.setPlayID(set.getInt("play_id"));
+            plan.setStudioID(set.getInt("studio_id"));
+            plan.setPlayDate(set.getDate("play_date"));
+            plan.setStartTime(set.getTime("start_time"));
+            plan.setEndTime(set.getTime("end_time"));
+            String queryStudio = "select studio_name from studio where studio_id="+plan.getStudioID();
+            PreparedStatement statement1 = connection.prepareStatement(queryStudio);
+            ResultSet set1 = statement1.executeQuery();
+            if (set1.next()) {
+                plan.setStudioName(set1.getString("studio_name"));
+            }
+            list.add(plan);
+        }
+        JDBCUtil.close(set, statement, connection);
         return list;
     }
 }
